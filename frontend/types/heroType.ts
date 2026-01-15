@@ -1,5 +1,5 @@
 export type HeroType = {
-    _id: number,
+    _id: string,
     nickname: string,
     real_name: string,
     origin_description: string,

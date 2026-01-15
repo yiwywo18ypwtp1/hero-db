@@ -4,26 +4,18 @@ import Header from "@/components/Header";
 import HeroCard from "@/components/HeroCard";
 import { HeroType } from "@/types/heroType";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getHeroesList } from "@/api/heroes";
+import { getAll } from "@/api/heroes";
 import { useEffect, useState } from "react";
-
-
 
 export default function Home() {
     const [heroes, setHeroes] = useState<HeroType[]>([]);
+    const [totalPages, setTotalPages] = useState(1);
 
     const router = useRouter();
     const searchParams = useSearchParams();
 
     const page = Number(searchParams.get("page")) || 1;
     const limit = Number(searchParams.get("limit")) || 6;
-
-    const totalPages = Math.max(1, Math.ceil(heroes.length / limit));
-
-    const paginatedHeroes = heroes.slice(
-        (page - 1) * limit,
-        page * limit
-    );
 
     const goToPage = (newPage: number) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -36,12 +28,14 @@ export default function Home() {
 
     useEffect(() => {
         const fetchHeroes = async () => {
-            const res = await getHeroesList();
-            setHeroes(res);
+            const res = await getAll(page, limit);
+
+            setHeroes(res.data.heroes);
+            setTotalPages(res.data.totalPages);
         }
 
         fetchHeroes();
-    }, []);
+    }, [page, limit]);
 
     return (
         <div className="flex min-h-screen w-full font-grotesk app-bg">
@@ -49,19 +43,30 @@ export default function Home() {
                 <Header title="Records" />
 
                 <main className="relative flex-1 w-full flex flex-col gap-4 main-depth p-4">
-                    <div className="grid grid-cols-3 grid-rows-2 gap-4 h-194 min-h-194">
-                        {paginatedHeroes.map((hero) => (
-                            <HeroCard
-                                key={hero._id}
-                                _id={hero._id}
-                                nickname={hero.nickname}
-                                real_name={hero.real_name}
-                                origin_description={hero.origin_description}
-                                superpowers={hero.superpowers}
-                                catch_phrase={hero.catch_phrase}
-                                images={hero.images}
-                            />
-                        ))}
+                    <div className={`${heroes.length > 0 ? "grid grid-cols-3 grid-rows-2 gap-4 h-194 min-h-194" : "flex items-center justify-center h-194 min-h-194"}`}>
+                        {heroes.length > 0 ? (
+                            heroes.map((hero: HeroType) => (
+                                <HeroCard
+                                    key={hero._id}
+                                    _id={hero._id}
+                                    nickname={hero.nickname}
+                                    real_name={hero.real_name}
+                                    origin_description={hero.origin_description}
+                                    superpowers={hero.superpowers}
+                                    catch_phrase={hero.catch_phrase}
+                                    images={hero.images}
+                                />
+                            ))
+                        ) : (
+                            <div className="flex flex-col items-center gap-4">
+                                <span className="text-2xl">There's no records yet. Wanna create the first?</span>
+
+                                <button className="nebula-btn flex items-center w-fit justify-center shadow-blu-l">
+                                    <img src="/plus.svg" alt="" className="h-5 drop-shadow-wht" />
+                                    <span className="text-shadow-wht">Create Record</span>
+                                </button>
+                            </div>
+                        )}
                     </div>
 
                     <div className="h-full flex items-center justify-center gap-5">
@@ -102,7 +107,7 @@ export default function Home() {
                             onClick={() => goToPage(page + 1)}
                             className={`
                                 py-1 border-transparent flex items-center gap-1 transition-all duration-200
-                                ${page === totalPages ? "opacity-0" : "opacity-50 hover:border-b hover:border-cyn hover:opacity-100 cursor-pointer"}
+                                ${page === totalPages || page === 1 ? "opacity-0" : "opacity-50 hover:border-b hover:border-cyn hover:opacity-100 cursor-pointer"}
                             `}
                         >
                             <span className="italic">Next</span>

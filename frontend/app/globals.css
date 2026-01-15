@@ -59,7 +59,6 @@ body {
             transparent 6px);
 }
 
-/*  */
 .main-depth {
     background-color: rgba(0, 0, 0, 0.25);
     box-shadow:
@@ -68,6 +67,7 @@ body {
 
 }
 
+/* BTN */
 .nebula-btn {
     position: relative;
     display: inline-flex;
@@ -94,4 +94,50 @@ body {
 .nebula-btn:hover {
     filter: brightness(1.5);
     cursor: pointer;
+}
+
+.slate-block {
+    border: 1px solid #273040;
+    border-radius: 6px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    padding: 20px;
+
+    background:
+        linear-gradient(to bottom left,
+            #202836,
+            #0d0f17);
+}
+
+
+.input {
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 4px;
+
+    padding-left: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+
+    outline: 2px solid transparent;
+
+    transition: all 150ms ease;
+}
+
+
+.input:focus {
+    outline: 3px solid #1f8cd980;
+    border-color: var(--color-blu);
+}
+
+.input-err {
+    outline: 3px solid #db3a4880;
+    border-color: #db3a48;
+}
+
+.input-err:focus {
+    outline: 3px solid #db3a4880;
+    border-color: #db3a48;
 }

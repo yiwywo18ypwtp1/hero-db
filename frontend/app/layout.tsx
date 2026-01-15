@@ -4,33 +4,33 @@ import "./globals.css";
 import SideBar from "@/components/SideBar";
 
 const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
-  subsets: ["latin"],
+    variable: "--font-space-grotesk",
+    subsets: ["latin"],
 });
 
 const orbitron = Orbitron({
-  variable: "--font-orbitron",
-  subsets: ["latin"],
+    variable: "--font-orbitron",
+    subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
-  title: "Heroes DB",
-  description: "",
+    title: "Hero DB",
+    description: "",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${spaceGrotesk.variable} ${orbitron.variable} antialiased flex`}
-      >
-        <SideBar />
-        {children}
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body
+                className={`${spaceGrotesk.variable} ${orbitron.variable} antialiased flex`}
+            >
+                <SideBar />
+                {children}
+            </body>
+        </html>
+    );
 }

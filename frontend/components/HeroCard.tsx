@@ -2,7 +2,7 @@ import { HeroType } from "@/types/heroType";
 
 const HeroCard = ({ nickname, real_name, origin_description, superpowers, catch_phrase, images }: HeroType) => {
     return (
-        <div className="w-full border border-[#273040] rounded-md flex flex-wrap p-5 bg-linear-to-bl from-[#202836] to-[#0d0f17] shadow-wht-xs">
+        <div className="w-full slate-block shadow-wht-xs">
             <div className="relative h-1/2 w-full overflow-hidden rounded">
                 {images?.[0] ? (
                     <img
@@ -19,11 +19,10 @@ const HeroCard = ({ nickname, real_name, origin_description, superpowers, catch_
                     </div>
                 )}
 
-
                 {images?.[0] && <div className="absolute inset-0 bg-linear-to-b from-black/0 via-black/55 to-black/90" />}
             </div>
 
-            <div className="flex flex-col justify-between">
+            <div className="flex flex-col justify-between gap-3">
                 <div className="flex flex-col gap-1">
                     <h1 className="font-bold text-xl">{nickname}</h1>
 
