@@ -24,8 +24,16 @@ export const getHero = async (req, res) => {
 
 export const createHero = async (req, res) => {
     try {
-        const hero = await heroService.create(req.body);
-        res.json(hero);
+        const images = req.files?.map(
+            (file) => `/uploads/heroes/${file.filename}`
+        ) || [];
+
+        const hero = await heroService.create({
+            ...req.body,
+            images,
+        });
+
+        res.status(201).json(hero);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

@@ -17,11 +17,11 @@ export const getAll = async ({ page = 1, limit = 6 }) => {
 };
 
 export const getOne = async (id) => {
-    return null;
+    return Hero.findById(id);
 };
 
-export const create = async (body) => {
-    return null;
+export const create = async (data) => {
+    return Hero.create(data);
 };
 
 export const update = async ({ params, body }) => {
