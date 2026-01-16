@@ -2,8 +2,12 @@
 
 import Header from "@/components/Header";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createHero } from "@/api/heroes"
 
 const NewRecord = () => {
+    const router = useRouter();
+
     const [nickname, setNickname] = useState<string>("");
 
     const [firstName, setFirstName] = useState<string>("");
@@ -18,7 +22,36 @@ const NewRecord = () => {
     const [catchPhrase, setCatchPhase] = useState<string>("");
     const MAX_CATCH_LENGHT = 100;
 
-    const [images, setImages] = useState<string[]>([]);
+    const [images, setImages] = useState<File[]>([]);
+
+    const handleCreate = async () => {
+        if (!nickname || !description || !superpowers) {
+            alert("Fill required fields");
+            return;
+        }
+
+        const formData = new FormData();
+
+        formData.append("nickname", nickname);
+        formData.append("real_name", `${firstName} ${lastName}`.trim());
+        formData.append("origin_description", description);
+        formData.append("superpowers", superpowers);
+        formData.append("catch_phrase", catchPhrase);
+
+        images.forEach((file) => {
+            formData.append("images", file);
+        });
+
+        await createHero(formData);
+
+        // await axios.post("http://localhost:5001/heroes", formData, {
+        //     headers: {
+        //         "Content-Type": "multipart/form-data",
+        //     },
+        // });
+
+        router.push("/");
+    };
 
     return (
         <div className="flex min-h-screen w-full font-grotesk app-bg">
@@ -29,13 +62,13 @@ const NewRecord = () => {
                     <div className="border w-1/4 slate-block">
                         <div className="flex flex-col gap-1">
                             <label className="text-white/50">Nickname</label>
-                            <input type="text" className="input" />
+                            <input onChange={(e) => setNickname(e.target.value)} type="text" className="input" />
                         </div>
 
                         <div className="flex flex-row gap-3">
                             <div className="flex flex-col gap-1">
                                 <label className="text-white/50">First name</label>
-                                <input type="text" className="input w-full" />
+                                <input onChange={(e) => setFirstName(e.target.value)} type="text" className="input w-full" />
                             </div>
 
                             <div className="flex flex-col gap-1">
@@ -44,7 +77,7 @@ const NewRecord = () => {
                                     <span className="opacity-25 text-xs">optional</span>
                                 </div>
 
-                                <input type="text" className="input w-full" />
+                                <input onChange={(e) => setLastName(e.target.value)} type="text" className="input w-full" />
                             </div>
                         </div>
 
@@ -86,6 +119,28 @@ const NewRecord = () => {
                                 className={`${catchPhrase.length >= MAX_CATCH_LENGHT ? "input input-err" : "input"} w-full max-h-40`}
                             />
                         </div>
+
+                        <div className="flex flex-col gap-1">
+                            <label className="text-white/50">Images</label>
+
+                            <input
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                onChange={(e) => {
+                                    if (!e.target.files) return;
+                                    setImages(Array.from(e.target.files));
+                                }}
+                                className="input border-dashed! hover:border-solid! cursor-pointer transition=all"
+                            />
+                        </div>
+
+                        <button
+                            onClick={handleCreate}
+                            className="nebula-btn flex items-center justify-center shadow-blu-s/50 mt-2"
+                        >
+                            <span className="text-shadow-wht">Create</span>
+                        </button>
                     </div>
                 </main>
             </div>

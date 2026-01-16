@@ -1,12 +1,16 @@
 import { HeroType } from "@/types/heroType";
+import { getImageUrl } from "@/utils/media";
+import { useRouter } from "next/navigation";
 
-const HeroCard = ({ nickname, real_name, origin_description, superpowers, catch_phrase, images }: HeroType) => {
+const HeroCard = ({ _id, nickname, real_name, origin_description, superpowers, catch_phrase, images }: HeroType) => {
+    const router = useRouter();
+
     return (
-        <div className="w-full slate-block shadow-wht-xs">
-            <div className="relative h-1/2 w-full overflow-hidden rounded">
+        <div className="w-full slate-block shadow-wht-xs flex flex-col justify-between">
+            <div className="relative max-h-1/2 min-h-1/2 w-full overflow-hidden rounded">
                 {images?.[0] ? (
                     <img
-                        src={images[0]}
+                        src={getImageUrl(images?.[0])}
                         alt={nickname}
                         className="h-full w-full object-cover object-[50%_25%] rounded"
                     />
@@ -22,7 +26,7 @@ const HeroCard = ({ nickname, real_name, origin_description, superpowers, catch_
                 {images?.[0] && <div className="absolute inset-0 bg-linear-to-b from-black/0 via-black/55 to-black/90" />}
             </div>
 
-            <div className="flex flex-col justify-between gap-3">
+            <div className="flex flex-col justify-between gap-3 h-full">
                 <div className="flex flex-col gap-1">
                     <h1 className="font-bold text-xl">{nickname}</h1>
 
@@ -30,10 +34,12 @@ const HeroCard = ({ nickname, real_name, origin_description, superpowers, catch_
                 </div>
 
                 <div className="flex items-center w-full gap-3">
-                    <button className="
-                        w-1/2 text-center border border-white/20 h-10 rounded bg-white/5
-                        hover:border-blu hover:shadow-blu-s/50 hover:text-blu hover:bg-blu/10 transition-all duration-200 cursor-pointer
-                    "
+                    <button
+                        onClick={() => router.push(`/hero/${_id}`)}
+                        className="
+                            w-1/2 text-center border border-white/20 h-10 rounded bg-white/5
+                            hover:border-blu hover:shadow-blu-s/50 hover:text-blu hover:bg-blu/10 transition-all duration-200 cursor-pointer
+                        "
                     >
                         View
                     </button>
@@ -47,7 +53,6 @@ const HeroCard = ({ nickname, real_name, origin_description, superpowers, catch_
                     </button>
                 </div>
             </div>
-
         </div>
     );
 }

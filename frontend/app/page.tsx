@@ -4,7 +4,7 @@ import Header from "@/components/Header";
 import HeroCard from "@/components/HeroCard";
 import { HeroType } from "@/types/heroType";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getAll } from "@/api/heroes";
+import { getAllHeroes } from "@/api/heroes";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -28,7 +28,7 @@ export default function Home() {
 
     useEffect(() => {
         const fetchHeroes = async () => {
-            const res = await getAll(page, limit);
+            const res = await getAllHeroes(page, limit);
 
             setHeroes(res.data.heroes);
             setTotalPages(res.data.totalPages);
