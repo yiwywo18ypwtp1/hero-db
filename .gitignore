@@ -44,5 +44,4 @@ next-env.d.ts
 
 # uploads
 frontend/public/heroes/
-uploads/*
-!.gitkeep
+backend/uploads/heroes/*
