@@ -1,3 +1,4 @@
+import { HeroUpdate } from "@/types/heroType";
 import { api } from "@/utils/api";
 
 export const getAllHeroes = async (page: number = 1, limit: number = 6) => {
@@ -16,4 +17,8 @@ export const createHero = async (data: FormData) => {
             "Content-Type": "multipart/form-data",
         },
     });
+};
+
+export const updateHero = async (id: string, data: HeroUpdate) => {
+    return api.put(`/heroes/${id}`, data);
 };
