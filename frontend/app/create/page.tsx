@@ -5,6 +5,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createHero } from "@/api/heroes"
 
+const MAX_DESC_LENGHT = 650;
+const MAX_SUPER_LENGHT = 200;
+const MAX_CATCH_LENGHT = 100;
+
 const NewRecord = () => {
     const router = useRouter();
 
@@ -14,13 +18,8 @@ const NewRecord = () => {
     const [lastName, setLastName] = useState<string>("");
 
     const [description, setDescription] = useState<string>("");
-    const MAX_DESC_LENGHT = 650;
-
     const [superpowers, setSuperpowers] = useState<string>("");
-    const MAX_SUPER_LENGHT = 200;
-
     const [catchPhrase, setCatchPhase] = useState<string>("");
-    const MAX_CATCH_LENGHT = 100;
 
     const [images, setImages] = useState<File[]>([]);
 
@@ -43,13 +42,6 @@ const NewRecord = () => {
         });
 
         await createHero(formData);
-
-        // await axios.post("http://localhost:5001/heroes", formData, {
-        //     headers: {
-        //         "Content-Type": "multipart/form-data",
-        //     },
-        // });
-
         router.push("/");
     };
 

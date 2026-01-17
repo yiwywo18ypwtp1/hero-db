@@ -37,24 +37,28 @@ export default function Home() {
         fetchHeroes();
     }, [page, limit]);
 
+    const handleHeroUpdated = (updatedHero: HeroType) => {
+        setHeroes(prev => prev
+            .map(hero => hero._id === updatedHero._id
+                ? updatedHero
+                : hero
+            )
+        );
+    }
+
     return (
         <div className="flex min-h-screen w-full font-grotesk app-bg">
             <div className="w-full flex flex-col max-h-screen items-center">
                 <Header title="Records" />
 
                 <main className="relative flex-1 w-full flex flex-col gap-4 main-depth p-4">
-                    <div className={`${heroes.length > 0 ? "grid grid-cols-3 grid-rows-2 gap-4 h-194 min-h-194" : "flex items-center justify-center h-194 min-h-194"}`}>
+                    <div className={`${heroes.length > 0 ? "grid grid-cols-3 grid-rows-2 gap-4 flex-1" : "flex items-center justify-center flex-1"}`}>
                         {heroes.length > 0 ? (
                             heroes.map((hero: HeroType) => (
                                 <HeroCard
                                     key={hero._id}
-                                    _id={hero._id}
-                                    nickname={hero.nickname}
-                                    real_name={hero.real_name}
-                                    origin_description={hero.origin_description}
-                                    superpowers={hero.superpowers}
-                                    catch_phrase={hero.catch_phrase}
-                                    images={hero.images}
+                                    hero={hero}
+                                    onUpdated={handleHeroUpdated}
                                 />
                             ))
                         ) : (
@@ -69,7 +73,7 @@ export default function Home() {
                         )}
                     </div>
 
-                    <div className="h-full flex items-center justify-center gap-5">
+                    <div className="h-10 flex items-center justify-center gap-5">
                         <button
                             disabled={page === 1}
                             onClick={() => goToPage(page - 1)}

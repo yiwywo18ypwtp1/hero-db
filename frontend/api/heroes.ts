@@ -22,3 +22,11 @@ export const createHero = async (data: FormData) => {
 export const updateHero = async (id: string, data: HeroUpdate) => {
     return api.put(`/heroes/${id}`, data);
 };
+
+export const uploadNewPhoto = async (id: string, data: FormData) => {
+    await api.put(`/heroes/${id}/images`, data);
+}
+
+export const deleteHero = async (id: string) => {
+    await api.delete(`/heroes/${id}`);
+}
