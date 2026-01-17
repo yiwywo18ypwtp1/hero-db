@@ -24,10 +24,29 @@ export const create = async (data) => {
     return Hero.create(data);
 };
 
-export const update = async ({ params, body }) => {
-    return null;
+export const update = async (id, data) => {
+    const hero = await Hero.findByIdAndUpdate(
+        id,
+        { $set: data },
+        { new: true },
+    );
+
+    return hero;
 };
 
-export const deleteOne = async (id) => {
-    return null;
+export const addImages = async (id, imagePaths) => {
+    return await Hero.findByIdAndUpdate(
+        id,
+        {
+            $push: {
+                images: { $each: imagePaths },
+            },
+        },
+        { new: true }
+    );
+};
+
+export const deleteById = async (id) => {
+    const hero = await Hero.findByIdAndDelete(id);
+    return hero;
 };
